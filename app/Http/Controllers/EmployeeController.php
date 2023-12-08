@@ -6,11 +6,13 @@ use Exception;
 use App\Models\employee;
 use Illuminate\view\view;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
     function EmployeeList(){
-        return employee::all();
+        // return employee::all();
+        return DB::table('employees')->orderBy('id','DESC')->get();
     }//end method
     function CreateEmployee(Request $request){
         try{
@@ -19,7 +21,7 @@ class EmployeeController extends Controller
                 'email'=>'required|unique:employees,email',
                 'phone'=>'required|string'
             ]);
-            $create = employee::create([
+            employee::create([
                 'name'=>$request->input('name'),
                 'email'=>$request->input('email'),
                 'phone'=>$request->input('phone')
